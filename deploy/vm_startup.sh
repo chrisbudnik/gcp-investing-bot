@@ -41,7 +41,6 @@ else
     echo "Warning: deploy/config.sh not found."
 fi
 
-cd APP_DIR
 
 # 4. Run Provisioning (setup_vm.sh)
 # We check if uv is installed as a proxy for "is provisioned"
