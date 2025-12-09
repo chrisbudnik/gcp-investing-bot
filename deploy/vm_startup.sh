@@ -7,17 +7,12 @@
 # 2. Running the one-time setup (setup_vm.sh) if needed.
 # 3. Starting the application services.
 
+REPO_URL="https://github.com/chrisbudnik/gcp-investing-bot.git"
+APP_DIR="/opt/investing-bot"
+
 set -e
 
 echo "--- Startup Script Initiated ---"
-
-# Load project configuration
-if [ -f "deploy/config.sh" ]; then
-    source deploy/config.sh
-    echo "Configuration loaded from deploy/config.sh"
-else
-    echo "Warning: deploy/config.sh not found."
-fi
 
 # 1. Bootstrap Git (Required to fetch the rest of the scripts)
 if ! command -v git &> /dev/null; then
@@ -38,7 +33,17 @@ fi
 
 cd "$APP_DIR"
 
-# 3. Run Provisioning (setup_vm.sh)
+# 3. Load project configuration
+if [ -f "deploy/config.sh" ]; then
+    source deploy/config.sh
+    echo "Configuration loaded from deploy/config.sh"
+else
+    echo "Warning: deploy/config.sh not found."
+fi
+
+cd APP_DIR
+
+# 4. Run Provisioning (setup_vm.sh)
 # We check if uv is installed as a proxy for "is provisioned"
 if ! command -v uv &> /dev/null; then
     echo "Running one-time provisioning..."
@@ -46,7 +51,7 @@ if ! command -v uv &> /dev/null; then
     ./deploy/vm_provision.sh
 fi
 
-# 4. Define Systemd Services
+# 5. Define Systemd Services
 # We re-apply this every boot to ensure any changes to .service definitions are picked up.
 
 echo "Configuring Systemd Services..."
@@ -86,7 +91,7 @@ Environment=PYTHONUNBUFFERED=1
 WantedBy=multi-user.target
 EOF
 
-# 5. Start Services
+# 6. Start Services
 echo "Reloading and Starting Services..."
 systemctl daemon-reload
 systemctl enable trading-bot-executor

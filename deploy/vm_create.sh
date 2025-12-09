@@ -23,7 +23,7 @@ if ! gcloud compute resource-policies describe "$VM_SCHEDULE_NAME" --region="$RE
         --project="$PROJECT_ID"
     echo "Schedule created."
 else
-    echo "Schedule '$SCHEDULE_NAME' already exists."
+    echo "Schedule '$VM_SCHEDULE_NAME' already exists."
 fi
 
 # 2. Create VM Instance
@@ -37,14 +37,14 @@ if ! gcloud compute instances describe "$INSTANCE_NAME" --zone="$ZONE" --project
         --image-family=debian-11 \
         --image-project=debian-cloud \
         --metadata-from-file startup-script=deploy/vm_startup.sh \
-        --resource-policies="$SCHEDULE_NAME" \
+        --resource-policies="$VM_SCHEDULE_NAME" \
         --tags=http-server,https-server
 
     echo "VM '$INSTANCE_NAME' created successfully."
 else
     echo "VM '$INSTANCE_NAME' already exists. Updating startup script metadata..."
     gcloud compute instances add-metadata "$INSTANCE_NAME" \
-        --metadata-from-file startup-script=deploy/startup-script.sh \
+        --metadata-from-file startup-script=deploy/vm_startup.sh \
         --zone="$ZONE" \
         --project="$PROJECT_ID"
 fi
