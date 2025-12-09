@@ -1,9 +1,9 @@
 .PHONY: setup deploy ssh tunnel start stop logs backup test
 
-PROJECT_ID ?= your-project-id
-INSTANCE_NAME ?= trading-bot-vm
+PROJECT_ID ?= gcp-investing-bot
+INSTANCE_NAME ?= investing-bot-vm
 ZONE ?= us-central1-a
-SERVICE_ACCOUNT ?= trading-bot-sa@$(PROJECT_ID).iam.gserviceaccount.com
+SERVICE_ACCOUNT ?= sa-investing-bot@$(PROJECT_ID).iam.gserviceaccount.com
 
 setup:
 	pip install -r requirements.txt
