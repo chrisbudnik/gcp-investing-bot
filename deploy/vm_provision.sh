@@ -23,27 +23,15 @@ sudo apt-get install -y \
     wget \
     jq
 
-# 2. Install uv (Python package manager)
-if ! command -v uv &> /dev/null; then
-    echo "Installing uv..."
-    curl -LsSf https://astral.sh/uv/install.sh | sh
-    
-    # Add to path for this script execution
-    export PATH="$HOME/.cargo/bin:$PATH"
-    
-    # Ensure it persists for the user
-    # Note: On GCP startup scripts, $HOME might be / (root) or /root.
-    if ! grep -q 'source $HOME/.cargo/env' $HOME/.bashrc; then
-        echo 'source $HOME/.cargo/env' >> $HOME/.bashrc
-    fi
-else
-    echo "uv is already installed."
-fi
+# 2. Install uv
+pip3 install --upgrade pip
+pip3 install uv
 
-# 3. Verification
+# 3. Check installation
 echo "Verifying installations..."
 git --version
 python3 --version
+pip3 --version
 uv --version
 
 echo "VM Provisioning complete."
