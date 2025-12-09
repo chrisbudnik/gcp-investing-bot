@@ -9,14 +9,6 @@ set -e
 # Prevent interactive prompts during apt install
 export DEBIAN_FRONTEND=noninteractive
 
-# Load configuration if available
-if [ -f "deploy/config.sh" ]; then
-    source deploy/config.sh
-    echo "Configuration loaded from deploy/config.sh"
-else
-    echo "Warning: deploy/config.sh not found."
-fi
-
 echo "Starting VM Provisioning..."
 
 # 1. Install System Dependencies

@@ -43,12 +43,8 @@ fi
 
 
 # 4. Run Provisioning (setup_vm.sh)
-# We check if uv is installed as a proxy for "is provisioned"
-if ! command -v uv &> /dev/null; then
-    echo "Running one-time provisioning..."
-    chmod +x deploy/vm_provision.sh
-    ./deploy/vm_provision.sh
-fi
+chmod +x deploy/vm_provision.sh
+./deploy/vm_provision.sh
 
 # 5. Define Systemd Services
 # We re-apply this every boot to ensure any changes to .service definitions are picked up.
