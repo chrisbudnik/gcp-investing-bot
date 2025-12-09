@@ -13,6 +13,8 @@ APP_DIR="/opt/investing-bot"
 set -e
 
 echo "--- Startup Script Initiated ---"
+exec > >(tee /var/log/startup-script.log) 2>&1
+
 
 # 1. Bootstrap Git (Required to fetch the rest of the scripts)
 if ! command -v git &> /dev/null; then
@@ -21,17 +23,18 @@ if ! command -v git &> /dev/null; then
     apt-get install -y git
 fi
 
+
 # 2. Update/Clone Repository
 if [ ! -d "$APP_DIR" ]; then
     echo "Cloning repository to $APP_DIR..."
     git clone "$REPO_URL" "$APP_DIR"
+    cd "$APP_DIR"
 else
     echo "Updating repository..."
     cd "$APP_DIR"
     git pull
 fi
 
-cd "$APP_DIR"
 
 # 3. Load project configuration
 if [ -f "deploy/config.sh" ]; then
@@ -43,12 +46,22 @@ fi
 
 
 # 4. Run Provisioning (setup_vm.sh)
-chmod +x deploy/vm_provision.sh
-./deploy/vm_provision.sh
+# Check if uv (last step) is installed to determine if provisioning is needed
+if ! command -v uv &> /dev/null; then
+    echo "Running VM Provisioning..."
+    chmod +x deploy/vm_provision.sh
+    ./deploy/vm_provision.sh
+else
+    echo "VM already provisioned. Skipping provisioning step."
+fi
 
-# 5. Define Systemd Services
-# We re-apply this every boot to ensure any changes to .service definitions are picked up.
 
+# 5. Sync Environment
+echo "Syncing application environment..."
+uv sync 
+
+
+# 6. Define Systemd Services
 echo "Configuring Systemd Services..."
 
 # Executor Service
@@ -61,7 +74,7 @@ After=network.target
 User=root
 WorkingDirectory=$APP_DIR
 # Using uv run to execute in the environment
-ExecStart=/root/.cargo/bin/uv run -m app.bot.executor
+ExecStart=/usr/local/bin/uv run -m app.bot.executor
 Restart=always
 Environment=PYTHONUNBUFFERED=1
 
@@ -78,7 +91,7 @@ After=network.target
 [Service]
 User=root
 WorkingDirectory=$APP_DIR
-ExecStart=/root/.cargo/bin/uv run uvicorn app.backend.main:app --host 0.0.0.0 --port 8000
+ExecStart=/usr/local/bin/uv run uvicorn app.backend.main:app --host 0.0.0.0 --port 8000
 Restart=always
 Environment=PYTHONUNBUFFERED=1
 
