@@ -49,7 +49,7 @@ fi
 # Check if uv (last step) is installed to determine if provisioning is needed
 if ! command -v uv &> /dev/null; then
     echo "Running VM Provisioning..."
-    chmod +x deploy/vm_provision_v2.sh
+    chmod +x deploy/vm_provision.sh
     ./deploy/vm_provision_v2.sh
 else
     echo "VM already provisioned. Skipping provisioning step."
