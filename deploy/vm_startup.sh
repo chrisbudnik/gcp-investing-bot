@@ -50,7 +50,7 @@ fi
 if ! command -v uv &> /dev/null; then
     echo "Running VM Provisioning..."
     chmod +x deploy/vm_provision_v2.sh
-    ./deploy/vm_provision.sh
+    ./deploy/vm_provision_v2.sh
 else
     echo "VM already provisioned. Skipping provisioning step."
 fi
