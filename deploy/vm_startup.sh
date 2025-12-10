@@ -57,6 +57,13 @@ fi
 
 
 # 5. Sync Environment
+if pwd | grep -q "$APP_DIR"; then
+    echo "In application directory."
+else
+    echo "Changing to application directory: $APP_DIR"
+    cd "$APP_DIR"
+fi
+
 echo "Syncing application environment..."
 uv sync 
 

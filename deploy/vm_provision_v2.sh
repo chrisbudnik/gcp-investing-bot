@@ -79,12 +79,5 @@ echo "[Python] Upgrading pip and installing uv."
 pip install --upgrade pip
 pip install uv
 
-# 6. Check installation
-# echo "Verifying installations..."
-
-# git --version
-# python3 --version
-# pip3 --version
-# uv --version
 
 echo "VM Provisioning complete."
