@@ -18,6 +18,7 @@ sudo apt-get install -y \
 # -------------------------------
 
 PYTHON_VERSION=3.14.2
+VERSION=3.14
 PREFIX=/opt/python/$PYTHON_VERSION
 
 echo "[Python] Downloading Python $PYTHON_VERSION."
@@ -41,10 +42,10 @@ sudo rm /tmp/Python-$PYTHON_VERSION.tgz
 
 echo "[Python] Creating internal symlinks."
 
-sudo ln -sf $PREFIX/bin/python3.12   $PREFIX/bin/python3
-sudo ln -sf $PREFIX/bin/python3.12   $PREFIX/bin/python
-sudo ln -sf $PREFIX/bin/pip3.12      $PREFIX/bin/pip3
-sudo ln -sf $PREFIX/bin/pip3.12      $PREFIX/bin/pip
+sudo ln -sf $PREFIX/bin/python$VERSION   $PREFIX/bin/python3
+sudo ln -sf $PREFIX/bin/python$VERSION   $PREFIX/bin/python
+sudo ln -sf $PREFIX/bin/pip$VERSION      $PREFIX/bin/pip3
+sudo ln -sf $PREFIX/bin/pip$VERSION      $PREFIX/bin/pip
 
 # -------------------------------
 # 3. Global PATH exposure
