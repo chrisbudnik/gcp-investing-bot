@@ -31,7 +31,8 @@ sudo apt-get install -y \
     xz-utils \
     tk-dev \
     liblzma-dev \
-    tk-dev
+    tk-dev \
+    uuid-dev
 
 # 2. Install Python 3.14.2 from source
 # https://www.build-python-from-source.com/
@@ -39,7 +40,6 @@ sudo apt-get install -y \
 
 echo "[Python] Downloading and installing Python 3.14.2 from source."
 
-cd /
 cd /tmp/
 wget https://www.python.org/ftp/python/3.14.2/Python-3.14.2.tgz
 tar xzf Python-3.14.2.tgz
@@ -48,8 +48,8 @@ cd Python-3.14.2
 # 3. Build and install
 echo "[Python] Building and installing Python 3.14.2."
 
-sudo ./configure --prefix=/opt/python/3.14.2/ --enable-optimizations --with-lto --with-computed-gotos --with-system-ffi --enable-shared --enable-loadable-sqlite-extensions --with-openssl=/usr/local/ssl
-sudo make -j "$(grep -c ^processor /proc/cpuinfo)"
+sudo ./configure --prefix=/opt/python/3.14.2/ --enable-optimizations
+make -j$(nproc)
 sudo make altinstall
 sudo rm /tmp/Python-3.14.2.tgz
 
@@ -65,12 +65,13 @@ sudo ln -s /opt/python/3.14.2/bin/idle3.14          /opt/python/3.14.2/bin/idle
 sudo ln -s /opt/python/3.14.2/bin/python3.14-config   /opt/python/3.14.2/bin/python-config
 
 # fixes linking err (--enable-shared + custom install path)
-echo "/opt/python/3.14.2/lib" | sudo tee /etc/ld.so.conf.d/python-3.14.2.conf
-sudo ldconfig
+# echo "/opt/python/3.14.2/lib" | sudo tee /etc/ld.so.conf.d/python-3.14.2.conf
+# sudo ldconfig
 
 # 5. Update PATH
 sudo update-alternatives --install /usr/bin/python python /opt/python/3.14.2/bin/python 2
 sudo update-alternatives --install /usr/bin/pip pip /opt/python/3.14.2/bin/pip 2
+sudo update-alternatives --install /usr/bin/uv uv /opt/python/3.14.2/bin/uv 2
 
 sudo update-alternatives --config python
 sudo update-alternatives --config pip
