@@ -34,6 +34,8 @@ sudo apt-get install -y \
     tk-dev
 
 # 2. Install Python 3.14.2 from source
+# https://www.build-python-from-source.com/
+
 echo "[Python] Downloading and installing Python 3.14.2 from source."
 
 cd /
@@ -61,23 +63,21 @@ sudo ln -s /opt/python/3.14.2/bin/pydoc3.14         /opt/python/3.14.2/bin/pydoc
 sudo ln -s /opt/python/3.14.2/bin/idle3.14          /opt/python/3.14.2/bin/idle
 sudo ln -s /opt/python/3.14.2/bin/python3.14-config   /opt/python/3.14.2/bin/python-config
 
-# 5. Update pip and install uv
-echo "[Python] Upgrading pip and installing uv."
+# fixes linking err (--enable-shared + custom install path)
+echo "/opt/python/3.14.2/lib" | sudo tee /etc/ld.so.conf.d/python-3.14.2.conf
+sudo ldconfig
 
-sudo /opt/python/3.14.2/bin/python3.14 -m pip install --upgrade pip setuptools wheel
-sudo /opt/python/3.14.2/bin/python3.14 -m pip install uv
-
-# 6. Update PATH
+# 5. Update PATH
 sudo update-alternatives --install /usr/bin/python python /opt/python/3.14.2/bin/python 2
-sudo update-alternatives --install /usr/bin/python3 python3 /opt/python/3.14.2/bin/python3 2
 sudo update-alternatives --install /usr/bin/pip pip /opt/python/3.14.2/bin/pip 2
-sudo update-alternatives --install /usr/bin/pip3 pip3 /opt/python/3.14.2/bin/pip3 2
 
 sudo update-alternatives --config python
-sudo update-alternatives --config python3
 sudo update-alternatives --config pip
-sudo update-alternatives --config pip3
 
+# 6. Update pip and install uv
+echo "[Python] Upgrading pip and installing uv."
+pip install --upgrade pip
+pip install uv
 
 # 6. Check installation
 # echo "Verifying installations..."
