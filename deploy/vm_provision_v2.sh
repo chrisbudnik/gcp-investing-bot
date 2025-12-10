@@ -36,6 +36,7 @@ sudo apt-get install -y \
 # 2. Install Python 3.14.2 from source
 echo "[Python] Downloading and installing Python 3.14.2 from source."
 
+cd /
 cd /tmp/
 wget https://www.python.org/ftp/python/3.14.2/Python-3.14.2.tgz
 tar xzf Python-3.14.2.tgz
@@ -65,6 +66,17 @@ echo "[Python] Upgrading pip and installing uv."
 
 sudo /opt/python/3.14.2/bin/python3.14 -m pip install --upgrade pip setuptools wheel
 sudo /opt/python/3.14.2/bin/python3.14 -m pip install uv
+
+# 6. Update PATH
+sudo update-alternatives --install /usr/bin/python python /opt/python/3.14.2/bin/python 2
+sudo update-alternatives --install /usr/bin/python3 python3 /opt/python/3.14.2/bin/python3 2
+sudo update-alternatives --install /usr/bin/pip pip /opt/python/3.14.2/bin/pip 2
+sudo update-alternatives --install /usr/bin/pip3 pip3 /opt/python/3.14.2/bin/pip3 2
+
+sudo update-alternatives --config python
+sudo update-alternatives --config python3
+sudo update-alternatives --config pip
+sudo update-alternatives --config pip3
 
 
 # 6. Check installation

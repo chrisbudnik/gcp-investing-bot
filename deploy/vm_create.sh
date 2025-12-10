@@ -31,7 +31,7 @@ if ! gcloud compute instances describe "$INSTANCE_NAME" --zone="$ZONE" --project
     gcloud compute instances create "$INSTANCE_NAME" \
         --project="$PROJECT_ID" \
         --zone="$ZONE" \
-        --machine-type=e2-micro \
+        --machine-type=e2-medium \
         --service-account="$SERVICE_ACCOUNT_EMAIL" \
         --scopes=cloud-platform \
         --image-family=debian-11 \
