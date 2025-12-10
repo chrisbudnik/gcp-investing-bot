@@ -11,8 +11,8 @@ export DEBIAN_FRONTEND=noninteractive
 
 echo "Starting VM Provisioning..."
 
-sudo apt-get update
-sudo apt-get upgrade
+# sudo apt-get update -y
+# sudo apt-get upgrade -y
 
 echo "[Python] Installing build dependencies."
 sudo apt-get install -y \
