@@ -61,7 +61,10 @@ You can follow the progress of the startup script and the application logs via G
 # Locally
 gcloud compute instances get-serial-port-output investing-bot-vm --zone=us-central1-a
 
-# On the VM
+# On the VM - default startup script logs on gcp
+sudo journalctl -u google-startup-scripts.service -f
+
+# 2nd option - custom startup script logs
 sudo tail -f /var/log/startup-script.log
 ```
 
