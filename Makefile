@@ -6,7 +6,7 @@ ZONE ?= us-central1-a
 SERVICE_ACCOUNT ?= sa-investing-bot@$(PROJECT_ID).iam.gserviceaccount.com
 
 setup:
-	pip install -r requirements.txt
+	uv sync
 
 test:
 	pytest
