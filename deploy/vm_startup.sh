@@ -81,7 +81,7 @@ After=network.target
 User=root
 WorkingDirectory=$APP_DIR
 # Using uv run to execute in the environment
-ExecStart=/usr/local/bin/uv run -m app.bot.executor
+ExecStart=uv run -m app.bot.executor
 Restart=always
 Environment=PYTHONUNBUFFERED=1
 
@@ -98,7 +98,7 @@ After=network.target
 [Service]
 User=root
 WorkingDirectory=$APP_DIR
-ExecStart=/usr/local/bin/uv run uvicorn app.backend.main:app --host 0.0.0.0 --port 8000
+ExecStart=uv run uvicorn app.backend.main:app --host 0.0.0.0 --port 8000
 Restart=always
 Environment=PYTHONUNBUFFERED=1
 
